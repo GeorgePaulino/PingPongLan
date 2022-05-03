@@ -10,7 +10,7 @@ using Myra.Graphics2D.UI;
 using System;
 using System.IO;
 
-namespace CharacterInfo
+namespace MonogameBase
 {
 
     public class MainScreen : GameScreen

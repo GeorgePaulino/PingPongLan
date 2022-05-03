@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CharacterInfo
+namespace MonogameBase
 {
     public static class Program
     {
