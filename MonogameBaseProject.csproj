@@ -24,7 +24,6 @@
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Coroutine" Version="2.1.3" />
     <PackageReference Include="FontStashSharp.MonoGame" Version="1.0.4" />
     <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
     <PackageReference Include="MonoGame.Extended.Tweening" Version="3.8.0" />
