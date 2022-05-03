@@ -1,7 +1,9 @@
 # Monogame-Base-Project
     Base project for Monogame using Monogame Extended and Myra
 
-#To presset project use:
+<img src="/App/Icon.png" alt="Lolly Pop"/>
+
+<h1>To presset project use:</h1>
     dotnet add package FontStashSharp.MonoGame --version 1.0.4
     dotnet add package MonoGame.Extended --version 3.8.0
     dotnet add package MonoGame.Extended.Tweening --version 3.8.0
