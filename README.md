@@ -7,7 +7,7 @@ Base project for Monogame using Monogame Extended and Myra
 
 <br>
 
-## To presset project use:
+## Project Dependencies
 ```
  dotnet add package FontStashSharp.MonoGame --version 1.0.4
  dotnet add package MonoGame.Extended --version 3.8.0
