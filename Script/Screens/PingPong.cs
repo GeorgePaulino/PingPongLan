@@ -23,7 +23,7 @@ namespace PingPong
         {
             points[index] += 1;
         }
-        private PadleEntity[] padles = new PadleEntity[2];
+        private PaddleEntity[] padles = new PaddleEntity[2];
         private BallEntity ball;
 
         private new MainGame Game => (MainGame)base.Game;
@@ -37,9 +37,9 @@ namespace PingPong
 
             collisionComponent = new CollisionComponent(new RectangleF(0, 0, Utilities.ScreenBounds[0], Utilities.ScreenBounds[1]));
 
-            padles[0] = new PadleEntity(new RectangleF(new Point2(50, 190), new Size2(20, 120)), Color.Red);
+            padles[0] = new PaddleEntity(new RectangleF(new Point2(50, 190), new Size2(20, 120)), Color.Red);
             padles[0].keys = Utilities.keys[0];
-            padles[1] = new PadleEntity(new RectangleF(new Point2(750, 190), new Size2(20, 120)), Color.Blue);
+            padles[1] = new PaddleEntity(new RectangleF(new Point2(750, 190), new Size2(20, 120)), Color.Blue);
             padles[1].keys = Utilities.keys[1];
             ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green);
             entities.Add(padles[0]);

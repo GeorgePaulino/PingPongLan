@@ -14,7 +14,7 @@ namespace PingPong
         public void Update(GameTime gameTime);
     }
 
-    public class PadleEntity : IEntity
+    public class PaddleEntity : IEntity
     {
         // 0 - Up | 1 - Down
         public Keys[] keys = new Keys[2];
@@ -23,7 +23,7 @@ namespace PingPong
         public Vector2 Direction;
         public float Velocity = 1;
         public IShapeF Bounds { get; }
-        public PadleEntity(RectangleF rectangle, Color color)
+        public PaddleEntity(RectangleF rectangle, Color color)
         {
             Bounds = rectangle;
             this.color = color;
@@ -104,7 +104,7 @@ namespace PingPong
 
         public void OnCollision(CollisionEventArgs collisionInfo)
         {
-            PadleEntity p = (PadleEntity) collisionInfo.Other;
+            PaddleEntity p = (PaddleEntity) collisionInfo.Other;
             Direction.X *= -1;
             Direction.Y = ((float)(Bounds.Position.Y - p.Bounds.Position.Y) / 120f) * 2f - 1f;
             Velocity += 0.1f;
