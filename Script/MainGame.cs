@@ -23,12 +23,14 @@ namespace PingPong
             Content.RootDirectory = "Content";
             Window.AllowUserResizing = false;
 
+
             // Variables
             graphics = new GraphicsDeviceManager(this);
         }
 
         protected override void Initialize()
         {
+            this.Window.Title = "Ping Pong";
             ScreenController.Set(this);
             base.Initialize();
             ScreenController.LoadTitlecreen();

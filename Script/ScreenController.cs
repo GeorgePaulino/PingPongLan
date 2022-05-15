@@ -16,9 +16,9 @@ namespace PingPong
             _game = game;
         }
 
-        public static void LoadPingPongScreen() => _screenManager.LoadScreen(new PingPongScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
+        public static void LoadPingPongScreen() => _screenManager.LoadScreen(new PingPongScreen(_game, 0), new FadeTransition(_game.GraphicsDevice, Color.Black));
         public static void LoadTitlecreen() => _screenManager.LoadScreen(new TitleScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
-        public static void LoadServerScreen() => _screenManager.LoadScreen(new PingPongServerScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
-        public static void LoadClientScreen(string ip) => _screenManager.LoadScreen(new PingPongClientScreen(_game, ip), new FadeTransition(_game.GraphicsDevice, Color.Black));
+        public static void LoadServerScreen() => _screenManager.LoadScreen(new PingPongScreen(_game, 1), new FadeTransition(_game.GraphicsDevice, Color.Black));
+        public static void LoadClientScreen(string ip) => _screenManager.LoadScreen(new PingPongScreen(_game, 2, ip), new FadeTransition(_game.GraphicsDevice, Color.Black));
     }
 }

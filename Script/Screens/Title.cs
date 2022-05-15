@@ -22,27 +22,26 @@ namespace PingPong
         public override void Initialize()
         {
             Game.screen = 1;
+            Game.graphics.PreferredBackBufferWidth = Utilities.ScreenBounds[0];
+            Game.graphics.PreferredBackBufferHeight = Utilities.ScreenBounds[1];
             desktop = new Desktop();
-            TittleGUI();
         }
 
-        public void TittleGUI()
-        {
-            TitleUI grid = new TitleUI();
-            grid.Normal.Click += delegate { ScreenController.LoadPingPongScreen(); };
-            grid.Lan.Click += delegate { LanGUI(); };
-            desktop.Root = grid;
-        }
+        TitleUI titleGrid;
+        LanUI lanUIGrid;
 
-        public void LanGUI()
+        public override void LoadContent()
         {
-            LanUI grid = new LanUI();
-            grid.LanGame.Click += delegate {
-                if(String.IsNullOrEmpty(grid.LanText.Text)) ScreenController.LoadServerScreen();
-                else ScreenController.LoadClientScreen(grid.LanText.Text);
+            titleGrid = new TitleUI();
+            titleGrid.NormalGameBtn.Click += delegate { ScreenController.LoadPingPongScreen(); };
+            titleGrid.LanUIBtn.Click += delegate { desktop.Root = lanUIGrid; };
+            lanUIGrid = new LanUI();
+            lanUIGrid.LanGameBtn.Click += delegate {
+                if(String.IsNullOrEmpty(lanUIGrid.IpText.Text)) ScreenController.LoadServerScreen();
+                else ScreenController.LoadClientScreen(lanUIGrid.IpText.Text);
             };
-            grid.Back.Click += delegate { TittleGUI(); };
-            desktop.Root = grid;
+            lanUIGrid.BackBtn.Click += delegate { desktop.Root = titleGrid; };
+            desktop.Root = titleGrid;        
         }
 
         public override void Update(GameTime gameTime) { }

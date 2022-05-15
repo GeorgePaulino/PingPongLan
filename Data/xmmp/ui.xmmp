@@ -1,7 +1,0 @@
-<Project>
-  <Grid >
-    <Image Renderable="../../Content/sprites/background.png" />
-    <Label Font="../fonts/PlayfairDisplay-VariableFont_wght.ttf:64" Text="Lolly Pop" Readonly="True" HorizontalAlignment="Center" Margin="0, 20, 0, 0" Id="tittle" />
-    <ImageButton Margin="0, 90" HorizontalAlignment="Center" VerticalAlignment="Center" Background="#00000000" OverBackground="#00000000" PressedBackground="#00000000" Id="lolly" />
-  </Grid>
-</Project>

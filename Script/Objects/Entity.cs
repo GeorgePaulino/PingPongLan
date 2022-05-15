@@ -105,7 +105,7 @@ namespace PingPong
         public virtual void Update(GameTime gameTime)
         {
             if(initTime == 0 && wait) initTime = gameTime.TotalGameTime.Seconds;
-            if(gameTime.TotalGameTime.Seconds - initTime <= 5 && wait) return;
+            if(gameTime.TotalGameTime.Seconds - initTime <= 3 && wait) return;
             Bounds.Position += Direction * Velocity * gameTime.GetElapsedSeconds() * Utilities.BaseVelocity;
             if(Bounds.Position.Y <= 0 || Bounds.Position.Y >= Utilities.ScreenBounds[1]) 
             {
