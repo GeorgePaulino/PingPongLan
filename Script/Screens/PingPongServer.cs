@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Principal;
 using System.Runtime.InteropServices.ComTypes;
 using System.Data;
@@ -35,6 +36,7 @@ namespace PingPong
 
         public override void Initialize()
         {
+            Game.screen = 2;
             var config = new NetPeerConfiguration("Ping Pong") { Port = 12345 };
             server = new NetServer(config);
             server.Start();
@@ -109,7 +111,7 @@ namespace PingPong
                 particleController.AddParticle(ball.Win == 1, ball.Bounds.Position);
                 entities.Remove(ball);
                 collisionComponent.Remove(ball);
-                ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green);
+                ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green, false);
                 entities.Add(ball);
                 collisionComponent.Insert(ball);
             }
@@ -120,6 +122,9 @@ namespace PingPong
             Game.GraphicsDevice.Clear(Color.Black);
             if(server.ConnectionsCount == 0) 
             {
+                Game.spriteBatch.Begin();
+                Game.spriteBatch.DrawString(font, "Waiting Cliente...", new Vector2(50, 50), Color.IndianRed);
+                Game.spriteBatch.End();
                 return;
             }
             particleController.Draw(Game.spriteBatch);
@@ -131,6 +136,11 @@ namespace PingPong
             padles[1].Draw(Game.spriteBatch);
             ball.Draw(Game.spriteBatch);
             Game.spriteBatch.End();
+        }
+
+        public override void UnloadContent()
+        {
+            server.Shutdown("");
         }
     }
 }

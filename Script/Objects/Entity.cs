@@ -80,11 +80,12 @@ namespace PingPong
         public Vector2 Direction;
         public float Velocity = 1;
         public IShapeF Bounds { get; set; }
-        public BallEntity(CircleF rectangle, Color color)
+        public BallEntity(CircleF rectangle, Color color, bool wait = true)
         {
             Bounds = rectangle;
             this.color = color;
             Direction = new Vector2(Utilities.Random.Next(0, 2) == 0 ? 1 : -1, Utilities.Random.Next(-1, 2));
+            this.wait = wait;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -99,8 +100,12 @@ namespace PingPong
             spriteBatch.DrawCircle((CircleF)Bounds, 8, color);
         }
 
+        bool wait = false;
+        int initTime = 0;
         public virtual void Update(GameTime gameTime)
         {
+            if(initTime == 0 && wait) initTime = gameTime.TotalGameTime.Seconds;
+            if(gameTime.TotalGameTime.Seconds - initTime <= 5 && wait) return;
             Bounds.Position += Direction * Velocity * gameTime.GetElapsedSeconds() * Utilities.BaseVelocity;
             if(Bounds.Position.Y <= 0 || Bounds.Position.Y >= Utilities.ScreenBounds[1]) 
             {
@@ -123,80 +128,6 @@ namespace PingPong
             Direction.Y = ((float)(Bounds.Position.Y - p.Bounds.Position.Y) / 120f) * 2f - 1f;
             Velocity += 0.1f;
             Bounds.Position -= collisionInfo.PenetrationVector;
-        }
-    }
-
-    public class SquareEntity : IEntity
-    {
-        private readonly Random _random;
-        public Vector2 Velocity;
-        public IShapeF Bounds { get; }
-
-        public SquareEntity(Random random, RectangleF rectangleF)
-        {
-            _random = random;
-            Bounds = rectangleF;
-            RandomizeVelocity();
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.DrawRectangle((RectangleF)Bounds, Color.Blue, 3);
-        }
-
-        public virtual void Update(GameTime gameTime)
-        {
-            Bounds.Position += Velocity * gameTime.GetElapsedSeconds() * 50;
-        }
-
-        public void OnCollision(CollisionEventArgs collisionInfo)
-        {
-            Velocity.X *= -1;
-            Velocity.Y *= -1;
-            Bounds.Position -= collisionInfo.PenetrationVector;
-        }
-
-        private void RandomizeVelocity()
-        {
-            Velocity.X = _random.Next(-1, 2);
-            Velocity.Y = _random.Next(-1, 2);
-        }
-    }
-
-    public class CircleEntity : IEntity
-    {
-        private readonly Random _random;
-        public Vector2 Velocity;
-        public IShapeF Bounds { get; }
-
-        public CircleEntity(Random random, CircleF circleF)
-        {
-            _random = random;
-            Bounds = circleF;
-            RandomizeVelocity();
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.DrawCircle((CircleF)Bounds, 360, Color.Red, 3f);
-        }
-
-        public void Update(GameTime gameTime)
-        {
-            Bounds.Position += Velocity * gameTime.GetElapsedSeconds() * 30;
-        }
-
-        public void OnCollision(CollisionEventArgs collisionInfo)
-        {
-            RandomizeVelocity();
-            Bounds.Position -= collisionInfo.PenetrationVector;
-        }
-
-
-        private void RandomizeVelocity()
-        {
-            Velocity.X = _random.Next(-1, 2);
-            Velocity.Y = _random.Next(-1, 2);
         }
     }
 }

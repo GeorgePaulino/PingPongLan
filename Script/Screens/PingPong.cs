@@ -32,6 +32,7 @@ namespace PingPong
 
         public override void Initialize()
         {
+            Game.screen = 4;
             Game.graphics.PreferredBackBufferWidth = Utilities.ScreenBounds[0];
             Game.graphics.PreferredBackBufferHeight = Utilities.ScreenBounds[1];
             Game.graphics.ApplyChanges();
@@ -70,7 +71,7 @@ namespace PingPong
                 particleController.AddParticle(ball.Win == 1, ball.Bounds.Position);
                 entities.Remove(ball);
                 collisionComponent.Remove(ball);
-                ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green);
+                ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green, false);
                 entities.Add(ball);
                 collisionComponent.Insert(ball);
             }

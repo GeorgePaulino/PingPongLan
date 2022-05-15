@@ -12,10 +12,9 @@ namespace PingPong
 {
     public class MainGame : Game
     {
+        public int screen = 0;
         public SpriteBatch spriteBatch;
         public GraphicsDeviceManager graphics;
-
-        public ScreenController screenController;
 
         public MainGame()
         {
@@ -26,15 +25,13 @@ namespace PingPong
 
             // Variables
             graphics = new GraphicsDeviceManager(this);
-
-            // Extended
-            screenController = new ScreenController(this);
         }
 
         protected override void Initialize()
         {
+            ScreenController.Set(this);
             base.Initialize();
-            screenController.LoadTitlecreen();
+            ScreenController.LoadTitlecreen();
         }
 
         protected override void LoadContent()
@@ -48,8 +45,11 @@ namespace PingPong
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if(screen != 1 && Keyboard.GetState().IsKeyDown(Keys.Escape)) 
+            {
+                ScreenController.LoadTitlecreen();
+            }
+            else if (screen == 1 && Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
 
             // TODO: Add your update logic here
 

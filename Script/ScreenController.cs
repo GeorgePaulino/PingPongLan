@@ -4,21 +4,21 @@ using Microsoft.Xna.Framework;
 
 namespace PingPong
 {
-    public class ScreenController
+    public static class ScreenController
     {
-        private readonly ScreenManager _screenManager;
-        private readonly MainGame _game;
+        private static ScreenManager _screenManager;
+        private static MainGame _game;
 
-        public ScreenController(MainGame game)
+        public static void Set(MainGame game)
         {
             _screenManager = new ScreenManager();
             game.Components.Add(_screenManager);
-            this._game = game;
+            _game = game;
         }
 
-        public void LoadPingPongScreen() => _screenManager.LoadScreen(new PingPongScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
-        public void LoadTitlecreen() => _screenManager.LoadScreen(new TitleScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
-        public void LoadServerScreen() => _screenManager.LoadScreen(new PingPongServerScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
-        public void LoadClientScreen() => _screenManager.LoadScreen(new PingPongClientScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
+        public static void LoadPingPongScreen() => _screenManager.LoadScreen(new PingPongScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
+        public static void LoadTitlecreen() => _screenManager.LoadScreen(new TitleScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
+        public static void LoadServerScreen() => _screenManager.LoadScreen(new PingPongServerScreen(_game), new FadeTransition(_game.GraphicsDevice, Color.Black));
+        public static void LoadClientScreen(string ip) => _screenManager.LoadScreen(new PingPongClientScreen(_game, ip), new FadeTransition(_game.GraphicsDevice, Color.Black));
     }
 }

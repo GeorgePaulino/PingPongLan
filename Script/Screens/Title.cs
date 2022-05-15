@@ -17,12 +17,11 @@ namespace PingPong
         Desktop desktop;
         
         private new MainGame Game => (MainGame)base.Game;
-        public TitleScreen(MainGame game) : base(game) 
-        {
-        }
+        public TitleScreen(MainGame game) : base(game) { }
 
         public override void Initialize()
         {
+            Game.screen = 1;
             desktop = new Desktop();
             TittleGUI();
         }
@@ -30,7 +29,7 @@ namespace PingPong
         public void TittleGUI()
         {
             TitleUI grid = new TitleUI();
-            grid.Normal.Click += delegate { new ScreenController(Game).LoadPingPongScreen(); };
+            grid.Normal.Click += delegate { ScreenController.LoadPingPongScreen(); };
             grid.Lan.Click += delegate { LanGUI(); };
             desktop.Root = grid;
         }
@@ -39,8 +38,8 @@ namespace PingPong
         {
             LanUI grid = new LanUI();
             grid.LanGame.Click += delegate {
-                if(String.IsNullOrEmpty(grid.LanText.Text)) new ScreenController(Game).LoadServerScreen();
-                else new ScreenController(Game).LoadClientScreen();
+                if(String.IsNullOrEmpty(grid.LanText.Text)) ScreenController.LoadServerScreen();
+                else ScreenController.LoadClientScreen(grid.LanText.Text);
             };
             grid.Back.Click += delegate { TittleGUI(); };
             desktop.Root = grid;

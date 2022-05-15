@@ -30,15 +30,17 @@ namespace PingPong
         private BallEntity ball;
 
         private new MainGame Game => (MainGame)base.Game;
-        public PingPongClientScreen(MainGame game) : base(game) { }
-
-        public override void Initialize()
+        public PingPongClientScreen(MainGame game, string ip) : base(game) 
         {
             var config = new NetPeerConfiguration("Ping Pong");
             client = new NetClient(config);
             client.Start();
-            client.Connect(host: "10.0.0.107", port: 12345);
+            client.Connect(host: ip, port: 12345);
+        }
 
+        public override void Initialize()
+        {
+            Game.screen = 3;
             Game.graphics.PreferredBackBufferWidth = Utilities.ScreenBounds[0];
             Game.graphics.PreferredBackBufferHeight = Utilities.ScreenBounds[1];
             Game.graphics.ApplyChanges();
@@ -63,6 +65,7 @@ namespace PingPong
 
         public override void Update(GameTime gameTime) 
         {
+            if(client.ConnectionsCount == 0) return;
             var send = client.CreateMessage();
             send.WriteAllFields(new ClientMessage(){up = Keyboard.GetState().IsKeyDown(Utilities.keys[1][0]), 
                 down = Keyboard.GetState().IsKeyDown(Utilities.keys[1][1])});
@@ -105,7 +108,7 @@ namespace PingPong
                 particleController.AddParticle(ball.Win == 1, ball.Bounds.Position);
                 entities.Remove(ball);
                 collisionComponent.Remove(ball);
-                ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green);
+                ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green, false);
                 entities.Add(ball);
                 collisionComponent.Insert(ball);
             }
@@ -114,6 +117,13 @@ namespace PingPong
         public override void Draw(GameTime gameTime)
         {
             Game.GraphicsDevice.Clear(Color.Black);
+            if(client.ConnectionsCount == 0) 
+            {
+                Game.spriteBatch.Begin();
+                Game.spriteBatch.DrawString(font, "Server not found... (Press ESC)", new Vector2(50, 50), Color.SkyBlue);
+                Game.spriteBatch.End();
+                return;
+            }
             particleController.Draw(Game.spriteBatch);
             Game.spriteBatch.Begin();
             
