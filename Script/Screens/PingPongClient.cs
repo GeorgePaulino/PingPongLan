@@ -75,7 +75,7 @@ namespace PingPong
                 {
                     case NetIncomingMessageType.Data:
                         // handle custom messages
-                        var data = new MsgData();
+                        var data = new ServerMessage();
                         message.ReadAllFields(data);
                         padles[0].point = new Point2(data.pad1X, data.pad1Y);
                         padles[1].point = new Point2(data.pad2X, data.pad2Y);

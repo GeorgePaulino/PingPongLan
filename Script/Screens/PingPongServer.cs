@@ -68,7 +68,7 @@ namespace PingPong
                 return;
             }
             var send = server.CreateMessage();
-            send.WriteAllFields(new MsgData(){pad1X = padles[0].Bounds.Position.X, pad1Y = padles[0].Bounds.Position.Y,
+            send.WriteAllFields(new ServerMessage(){pad1X = padles[0].Bounds.Position.X, pad1Y = padles[0].Bounds.Position.Y,
                 pad2X = padles[1].Bounds.Position.X, pad2Y = padles[1].Bounds.Position.Y,
                 ballX = ball.Bounds.Position.X, ballY = ball.Bounds.Position.Y,
                 score1 = points[0], score2 = points[1], win = ball.Win});
