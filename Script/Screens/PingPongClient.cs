@@ -2,6 +2,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Data;
 using System.Collections.Generic;
 using System;
+using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,8 +12,9 @@ using MonoGame.Extended.Collisions;
 
 namespace PingPong
 {
-    public class PingPongScreen : GameScreen
+    public class PingPongClientScreen : GameScreen
     {
+        NetClient client;
         ParticleController particleController = new ParticleController();
 
         private CollisionComponent collisionComponent;
@@ -28,10 +30,15 @@ namespace PingPong
         private BallEntity ball;
 
         private new MainGame Game => (MainGame)base.Game;
-        public PingPongScreen(MainGame game) : base(game) { }
+        public PingPongClientScreen(MainGame game) : base(game) { }
 
         public override void Initialize()
         {
+            var config = new NetPeerConfiguration("Ping Pong");
+            client = new NetClient(config);
+            client.Start();
+            client.Connect(host: "10.0.0.107", port: 12345);
+
             Game.graphics.PreferredBackBufferWidth = Utilities.ScreenBounds[0];
             Game.graphics.PreferredBackBufferHeight = Utilities.ScreenBounds[1];
             Game.graphics.ApplyChanges();
@@ -56,10 +63,38 @@ namespace PingPong
 
         public override void Update(GameTime gameTime) 
         {
-            padles[0].motions[0] = Keyboard.GetState().IsKeyDown(Utilities.keys[0][0]);
-            padles[0].motions[1] = Keyboard.GetState().IsKeyDown(Utilities.keys[0][1]);
-            padles[1].motions[0] = Keyboard.GetState().IsKeyDown(Utilities.keys[1][0]);
-            padles[1].motions[1] = Keyboard.GetState().IsKeyDown(Utilities.keys[1][1]);
+            var send = client.CreateMessage();
+            send.WriteAllFields(new ClientMessage(){up = Keyboard.GetState().IsKeyDown(Utilities.keys[1][0]), 
+                down = Keyboard.GetState().IsKeyDown(Utilities.keys[1][1])});
+            client.SendMessage(send, NetDeliveryMethod.ReliableOrdered);
+            
+            NetIncomingMessage message;
+            while ((message = client.ReadMessage()) != null)
+            {
+                switch (message.MessageType)
+                {
+                    case NetIncomingMessageType.Data:
+                        // handle custom messages
+                        var data = new MsgData();
+                        message.ReadAllFields(data);
+                        padles[0].point = new Point2(data.pad1X, data.pad1Y);
+                        padles[1].point = new Point2(data.pad2X, data.pad2Y);
+                        ball.point = new Point2(data.ballX, data.ballY);
+                        points[0] = data.score1;
+                        points[1] = data.score2;
+                        ball.Win = data.win;
+                        break;
+
+                    case NetIncomingMessageType.StatusChanged: break;
+
+                    case NetIncomingMessageType.DebugMessage:
+                        Console.WriteLine(message.ReadString());
+                        break;
+                    default:
+                        Console.WriteLine("unhandled message with type: " + message.MessageType);
+                        break;
+                }
+            }
 
             particleController.Update(gameTime);
             foreach(var e in entities) { e.Update(gameTime); }

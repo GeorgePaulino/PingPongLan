@@ -34,7 +34,7 @@ namespace PingPong
         protected override void Initialize()
         {
             base.Initialize();
-            screenController.LoadPingPongScreen();
+            screenController.LoadTitlecreen();
         }
 
         protected override void LoadContent()
@@ -52,6 +52,11 @@ namespace PingPong
                 Exit();
             if(Keyboard.GetState().IsKeyDown(Keys.Add)) screenController.LoadPingPongScreen();
             if(Keyboard.GetState().IsKeyDown(Keys.Subtract)) screenController.LoadCollisionScreen();
+            if(Keyboard.GetState().IsKeyDown(Keys.Enter)) screenController.LoadTitlecreen();
+            if(Keyboard.GetState().IsKeyDown(Keys.NumPad1)) screenController.LoadServerScreen();
+            if(Keyboard.GetState().IsKeyDown(Keys.NumPad2)) screenController.LoadClientScreen();
+
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);

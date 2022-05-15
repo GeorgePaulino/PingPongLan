@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FontStashSharp.MonoGame" Version="1.0.4" />
+    <PackageReference Include="Lidgren.Network" Version="1.0.2" />
     <PackageReference Include="MonoGame.Extended" Version="3.8.0" />
     <PackageReference Include="MonoGame.Extended.Collisions" Version="3.8.0" />
     <PackageReference Include="MonoGame.Extended.Particles" Version="3.8.0" />

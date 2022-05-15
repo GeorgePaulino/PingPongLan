@@ -17,12 +17,13 @@ namespace PingPong
     public class PaddleEntity : IEntity
     {
         // 0 - Up | 1 - Down
-        public Keys[] keys = new Keys[2];
+        public bool[] motions = new bool[2];
+        public Point2? point = null;
         public Texture2D texture;
         public Color color;
         public Vector2 Direction;
         public float Velocity = 1;
-        public IShapeF Bounds { get; }
+        public IShapeF Bounds { get; set;}
         public PaddleEntity(RectangleF rectangle, Color color)
         {
             Bounds = rectangle;
@@ -31,19 +32,25 @@ namespace PingPong
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            if(point != null)
+            {
+                RectangleF rect = (RectangleF)Bounds;
+                rect.Position = (Vector2)point;
+                Bounds = rect;
+            }
             //spriteBatch.Draw(texture, Bounds.Position, Color.White);
             spriteBatch.DrawRectangle((RectangleF)Bounds, color);
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            if(Keyboard.GetState().IsKeyDown(keys[0])) 
+            if(motions[0]) 
             {
                 if(Bounds.Position.Y <= 0) Velocity = 0;
                 else Velocity = 1;
                 Direction.Y = -1;
             }
-            else if(Keyboard.GetState().IsKeyDown(keys[1])) 
+            else if(motions[1]) 
             {
                 if(Bounds.Position.Y + 120 >= Utilities.ScreenBounds[1]) Velocity=0;
                 else Velocity = 1;
@@ -67,11 +74,12 @@ namespace PingPong
     public class BallEntity : IEntity
     {
         public int Win = 0;
+        public Vector2? point = null;
         public Texture2D texture;
         public Color color;
         public Vector2 Direction;
         public float Velocity = 1;
-        public IShapeF Bounds { get; }
+        public IShapeF Bounds { get; set; }
         public BallEntity(CircleF rectangle, Color color)
         {
             Bounds = rectangle;
@@ -82,6 +90,12 @@ namespace PingPong
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(texture, Bounds.Position, Color.White);
+            if(point != null)
+            {
+                CircleF circle = (CircleF)Bounds;
+                circle.Position = (Vector2) point;
+                Bounds = circle;
+            }
             spriteBatch.DrawCircle((CircleF)Bounds, 8, color);
         }
 
