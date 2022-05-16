@@ -24,6 +24,7 @@ namespace PingPong
             Game.screen = 1;
             Game.graphics.PreferredBackBufferWidth = Utilities.ScreenBounds[0];
             Game.graphics.PreferredBackBufferHeight = Utilities.ScreenBounds[1];
+            Game.graphics.ApplyChanges();
             desktop = new Desktop();
         }
 
