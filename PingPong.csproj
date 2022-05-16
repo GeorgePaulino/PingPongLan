@@ -4,19 +4,19 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
-    <ApplicationIcon>./App/Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>./App/app.manifest</ApplicationManifest>
-    <ApplicationIcon>./App/Icon.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="./App/Icon.ico" />
-    <None Remove="./App/Icon.bmp" />
+    <None Remove="Icon.ico" />
+    <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>  
-    <EmbeddedResource Include="./App/Icon.ico"/>
-    <EmbeddedResource Include="./App/Icon.bmp"/>
+    <EmbeddedResource Include="Icon.ico"/>
+    <EmbeddedResource Include="Icon.bmp"/>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
