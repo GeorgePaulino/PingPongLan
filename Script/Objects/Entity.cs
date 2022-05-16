@@ -38,8 +38,8 @@ namespace PingPong
                 rect.Position = (Vector2)point;
                 Bounds = rect;
             }
-            //spriteBatch.Draw(texture, Bounds.Position, Color.White);
-            spriteBatch.DrawRectangle((RectangleF)Bounds, color);
+            spriteBatch.Draw(texture, (Rectangle)(RectangleF)Bounds, Color.White);
+            //spriteBatch.DrawRectangle((RectangleF)Bounds, color);
         }
 
         public virtual void Update(GameTime gameTime)
@@ -90,14 +90,14 @@ namespace PingPong
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(texture, Bounds.Position, Color.White);
             if(point != null)
             {
                 CircleF circle = (CircleF)Bounds;
                 circle.Position = (Vector2) point;
                 Bounds = circle;
             }
-            spriteBatch.DrawCircle((CircleF)Bounds, 8, color);
+            spriteBatch.Draw(texture, (CircleF)Bounds, Color.White);
+            //spriteBatch.DrawCircle((CircleF)Bounds, 8, color);
         }
 
         bool wait = false;

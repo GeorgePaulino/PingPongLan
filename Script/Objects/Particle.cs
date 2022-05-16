@@ -32,7 +32,7 @@ namespace PingPong
 
         public void AddParticle(bool red, Vector2 pos)
         {
-            ParticleEffect particle = red ? particleContainer.RedParticle() : particleContainer.BlueParticle();
+            ParticleEffect particle = particleContainer.Particle(red);
             particle.Position = pos;
             controllerObjs.Add(new ParticleControllerObj() { particle = particle });
         }
@@ -72,10 +72,21 @@ namespace PingPong
         public ParticleEffect blueParticle;
         private Texture2D particleTexture;
 
-
-        public ParticleEffect RedParticle()
+        public ParticleEffect Particle(bool red)
         {
             TextureRegion2D textureRegion = new TextureRegion2D(particleTexture);
+            int side = 0;
+            float hBase = 0;
+            if(red)
+            {
+                side = 1;
+                hBase = 1f;
+            }
+            else
+            {
+                side = -1;
+                hBase = 205f;
+            }
 
             return new ParticleEffect(autoTrigger: false)
             {
@@ -83,7 +94,7 @@ namespace PingPong
                 Emitters = new List<ParticleEmitter>
                 {
                     new ParticleEmitter(textureRegion, 1000, TimeSpan.FromSeconds(2),
-                        Profile.Spray(new Vector2(1, 0), 8))
+                        Profile.Spray(new Vector2(side, 0), 8))
                     {
                         Parameters = new ParticleReleaseParameters
                         {
@@ -100,47 +111,8 @@ namespace PingPong
                                 {
                                     new ColorInterpolator
                                     {
-                                        StartValue = new HslColor(1f, 0.7f, 0.6f),
-                                        EndValue = new HslColor(1f, 1f, 0.6f)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-        }
-
-        public ParticleEffect BlueParticle()
-        {
-            TextureRegion2D textureRegion = new TextureRegion2D(particleTexture);
-
-
-            return new ParticleEffect(autoTrigger: false)
-            {
-                Position = new Vector2(100, 240),
-                Emitters = new List<ParticleEmitter>
-                {
-                    new ParticleEmitter(textureRegion, 1000, TimeSpan.FromSeconds(2),
-                        Profile.Spray(new Vector2(-1, 0), 8))
-                    {
-                        Parameters = new ParticleReleaseParameters
-                        {
-                            Speed = new Range<float>(0f, 200f),
-                            Quantity = 30,
-                            Rotation = new Range<float>(0f, 1f),
-                            Scale = new Range<float>(3.0f, 4.0f)
-                        },
-                        Modifiers =
-                        {
-                            new AgeModifier
-                            {
-                                Interpolators =
-                                {
-                                    new ColorInterpolator
-                                    {
-                                        StartValue = new HslColor(205f, 0.7f, 0.6f),
-                                        EndValue = new HslColor(205f, 1f, 0.6f)
+                                        StartValue = new HslColor(hBase, 0.7f, 0.6f),
+                                        EndValue = new HslColor(hBase, 1f, 0.6f)
                                     }
                                 }
                             }

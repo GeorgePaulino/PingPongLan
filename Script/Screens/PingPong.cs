@@ -24,9 +24,12 @@ namespace PingPong
         private List<IEntity> entities = new List<IEntity>();
 
         private SpriteFont font;
+        private SpriteFont hintFont;
         private int[] points = new int[2];
         public void AddPoint(int index) => points[index] += 1;
         private PaddleEntity[] padles = new PaddleEntity[2];
+        Texture2D ballTex;
+        Texture2D fieldTex;
         private BallEntity ball;
 
         int mode;
@@ -73,6 +76,12 @@ namespace PingPong
         {
             particleController.LoadContent(Game.GraphicsDevice);
             font = Content.Load<SpriteFont>("Score");
+            hintFont = Content.Load<SpriteFont>("Hint");
+            padles[0].texture = Content.Load<Texture2D>("sprites/paddle1");
+            padles[1].texture = Content.Load<Texture2D>("sprites/paddle2");
+            ballTex = Content.Load<Texture2D>("sprites/ball");
+            ball.texture = ballTex;
+            fieldTex = Content.Load<Texture2D>("sprites/field");
         }
 
         public override void Update(GameTime gameTime) 
@@ -101,6 +110,7 @@ namespace PingPong
                 entities.Remove(ball);
                 collisionComponent.Remove(ball);
                 ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green, false);
+                ball.texture = ballTex;
                 entities.Add(ball);
                 collisionComponent.Insert(ball);
             }
@@ -174,7 +184,7 @@ namespace PingPong
             {
                 if(conn.ConnectionsCount == 0) 
                 {
-                    string msg = mode == 1 ? "Waiting Cliente..." : "Server not found... (Press ESC)" ;
+                    string msg = mode == 1 ? "Waiting Cliente... (Press ESC)" : "Searching Server... (Press ESC)" ;
                     Color color = mode == 1 ? Color.IndianRed : Color.SkyBlue;
                     Game.spriteBatch.Begin();
                     Game.spriteBatch.DrawString(font, msg, new Vector2(50, 50), color);
@@ -185,9 +195,13 @@ namespace PingPong
 
             particleController.Draw(Game.spriteBatch);
             Game.spriteBatch.Begin();
-            
+            Game.spriteBatch.Draw(fieldTex, new Rectangle(-5, -3, 800, 500), Color.White);
             Game.spriteBatch.DrawString(font, points[1].ToString(), new Vector2(150, 20), Color.White);
             Game.spriteBatch.DrawString(font, points[0].ToString(), new Vector2(650, 20), Color.White);
+            Game.spriteBatch.DrawString(hintFont, "W", new Vector2(150, 100), Color.IndianRed);
+            Game.spriteBatch.DrawString(hintFont, "S", new Vector2(150, 400), Color.IndianRed);
+            Game.spriteBatch.DrawString(hintFont, "UP", new Vector2(650, 100), Color.SkyBlue);
+            Game.spriteBatch.DrawString(hintFont, "DOWN", new Vector2(650, 400), Color.SkyBlue);
             padles[0].Draw(Game.spriteBatch);
             padles[1].Draw(Game.spriteBatch);
             ball.Draw(Game.spriteBatch);

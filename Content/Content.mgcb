@@ -20,6 +20,13 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/Score.spritefont;Score.spritefont
 
+#begin fonts/Score.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/Hint.spritefont;Hint.spritefont
+
 #begin UI/NormalGameBtn/Normal.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -55,3 +62,51 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:UI/button/Pressed.png;UI/button/Pressed.png
+
+#begin UI/NormalGameBtn/Normal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/ball.png;sprites/ball.png
+
+#begin UI/NormalGameBtn/Normal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/paddle1.png;sprites/paddle1.png
+
+#begin UI/NormalGameBtn/Normal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/paddle2.png;sprites/paddle2.png
+
+#begin UI/NormalGameBtn/Normal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/field.png;sprites/field.png

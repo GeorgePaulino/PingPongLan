@@ -37,16 +37,13 @@ namespace PingPong
             FontSystem font = new FontSystem(fontSet);
             font.AddFont(ttfData);
 
-			title = new TextBox();
-			title.Text = "PING PONG";
+			title = new Label();
+			title.Text = @"\c[indianRed]PING \c[skyBlue]PONG";
 			title.HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment.Center;
-			title.Margin = new Thickness(0, 100, 0, 0);
+			title.Margin = new Thickness(0, 80, 0, 0);
 			title.Background = new SolidBrush("#00000000");
 			title.Id = "title";
 			title.Font = font.GetFont(128);
-			title.Readonly = true;
-			title.AcceptsKeyboardFocus = false;
-			title.Selection = new SolidBrush("#00000000");
 
 			ttfData = File.ReadAllBytes("./Data/fonts/buttons.ttf");
             fontSet = new FontSystemSettings{Effect = FontSystemEffect.Stroked, EffectAmount = 2};
@@ -66,7 +63,7 @@ namespace PingPong
 		}
 
 		
-		public TextBox title;
+		public Label title;
 		public ImageTextButton LanUIBtn;
 		public ImageTextButton NormalGameBtn;
 	}
