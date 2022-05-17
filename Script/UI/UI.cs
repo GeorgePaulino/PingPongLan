@@ -2,7 +2,6 @@ using FontStashSharp;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Media;
 using Myra;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
@@ -18,7 +17,7 @@ public static class UI
         DefaultTextButton.Text = txt;
         DefaultTextButton.TextPosition = ImageTextButton.TextPositionEnum.OverlapsImage;
         DefaultTextButton.LabelHorizontalAlignment = HorizontalAlignment.Center;
-        DefaultTextButton.LabelVerticalAlignment = VerticalAlignment.Center;
+        DefaultTextButton.LabelVerticalAlignment = VerticalAlignment.Top;
 
         DefaultTextButton.Image = new TextureRegion(MyraEnvironment.Game.Content.Load<Texture2D>("UI/button/Normal"));
         DefaultTextButton.OverImage = new TextureRegion(MyraEnvironment.Game.Content.Load<Texture2D>("UI/button/Overed"));
