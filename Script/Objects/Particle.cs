@@ -17,39 +17,42 @@ namespace PingPong
 
     public class ParticleController
     {
-        ParticleContainer particleContainer = new ParticleContainer();
-        public List<ParticleControllerObj> controllerObjs = new List<ParticleControllerObj>();
-        public class ParticleControllerObj
+        
+        private ParticleContainer _particleContainer = new ParticleContainer();
+        
+        private List<ParticleControllerObj> _controllerObjs = new List<ParticleControllerObj>();
+        
+        class ParticleControllerObj
         {
             public ParticleEffect particle;
             public float time = 0;
         }
 
-        public void LoadContent(GraphicsDevice graphics)
-        {
-            particleContainer.LoadContent(graphics);
-        }
-
         public void AddParticle(bool red, Vector2 pos)
         {
-            ParticleEffect particle = particleContainer.Particle(red);
+            ParticleEffect particle = _particleContainer.Particle(red);
             particle.Position = pos;
-            controllerObjs.Add(new ParticleControllerObj() { particle = particle });
+            _controllerObjs.Add(new ParticleControllerObj() { particle = particle });
+        }
+
+        public void LoadContent(GraphicsDevice graphics)
+        {
+            _particleContainer.LoadContent(graphics);
         }
 
         public void Update(GameTime gameTime)
         {
             int removeds = 0;
-            for (int i = 0; i < controllerObjs.Count; i++)
+            for (int i = 0; i < _controllerObjs.Count; i++)
             {
-                var obj = controllerObjs[i - removeds];
+                var obj = _controllerObjs[i - removeds];
                 obj.particle.Update(gameTime.GetElapsedSeconds());
                 obj.time += gameTime.GetElapsedSeconds();
                 if (obj.time > 2)
                 {
                     obj.particle.Dispose();
                     obj = null;
-                    controllerObjs.RemoveAt(i);
+                    _controllerObjs.RemoveAt(i);
                     removeds++;
                 }
             }
@@ -58,7 +61,7 @@ namespace PingPong
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(blendState: BlendState.AlphaBlend);
-            foreach (var obj in controllerObjs)
+            foreach (var obj in _controllerObjs)
             {
                 spriteBatch.Draw(obj.particle);
             }
@@ -68,25 +71,17 @@ namespace PingPong
     }
     public class ParticleContainer
     {
-        public ParticleEffect redParticle;
-        public ParticleEffect blueParticle;
         private Texture2D particleTexture;
+
+        public void LoadContent(GraphicsDevice graphics)
+        {
+            particleTexture = new Texture2D(graphics, 1, 1);
+            particleTexture.SetData(new[] { Color.White });
+        }
 
         public ParticleEffect Particle(bool red)
         {
             TextureRegion2D textureRegion = new TextureRegion2D(particleTexture);
-            int side = 0;
-            float hBase = 0;
-            if(red)
-            {
-                side = 1;
-                hBase = 1f;
-            }
-            else
-            {
-                side = -1;
-                hBase = 205f;
-            }
 
             return new ParticleEffect(autoTrigger: false)
             {
@@ -94,7 +89,7 @@ namespace PingPong
                 Emitters = new List<ParticleEmitter>
                 {
                     new ParticleEmitter(textureRegion, 1000, TimeSpan.FromSeconds(2),
-                        Profile.Spray(new Vector2(side, 0), 8))
+                        Profile.Spray(new Vector2(red ? 1 : -1, 0), 8))
                     {
                         Parameters = new ParticleReleaseParameters
                         {
@@ -111,8 +106,8 @@ namespace PingPong
                                 {
                                     new ColorInterpolator
                                     {
-                                        StartValue = new HslColor(hBase, 0.7f, 0.6f),
-                                        EndValue = new HslColor(hBase, 1f, 0.6f)
+                                        StartValue = new HslColor(red ? 1f : 205f, 0.7f, 0.6f),
+                                        EndValue = new HslColor(red ? 1f : 205f, 1f, 0.6f)
                                     }
                                 }
                             }
@@ -120,12 +115,6 @@ namespace PingPong
                     }
                 }
             };
-        }
-
-        public void LoadContent(GraphicsDevice graphics)
-        {
-            particleTexture = new Texture2D(graphics, 1, 1);
-            particleTexture.SetData(new[] { Color.White });
         }
     }
 }

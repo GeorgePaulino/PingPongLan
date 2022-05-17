@@ -14,119 +14,122 @@ namespace PingPong
         public void Update(GameTime gameTime);
     }
 
-    public class PaddleEntity : IEntity
+    public abstract class GenericEntity : IEntity
+    {
+        public Texture2D texture;
+        protected Color color;
+        public IShapeF Bounds { get; set; }        
+        
+        protected Vector2 direction;
+        protected float velocity = 1;
+
+        public Vector2? prePositionedValue = null;
+
+        public virtual void Update(GameTime gameTime)
+        {
+            Bounds.Position += direction * velocity * gameTime.GetElapsedSeconds() * Utilities.baseVelocity;
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            if(prePositionedValue != null)
+            {
+                IShapeF shape = (IShapeF)Bounds;
+                shape.Position = (Vector2) prePositionedValue;
+                Bounds = shape;
+            }
+        }
+
+        public virtual void OnCollision(CollisionEventArgs collisionInfo)
+        {
+            velocity += 0.1f;
+        }
+
+    }
+
+    public class PadleEntity : GenericEntity
     {
         // 0 - Up | 1 - Down
         public bool[] motions = new bool[2];
-        public Point2? point = null;
-        public Texture2D texture;
-        public Color color;
-        public Vector2 Direction;
-        public float Velocity = 1;
-        public IShapeF Bounds { get; set;}
-        public PaddleEntity(RectangleF rectangle, Color color)
+        
+        public PadleEntity(RectangleF rectangle, Color color)
         {
             Bounds = rectangle;
             this.color = color;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if(point != null)
-            {
-                RectangleF rect = (RectangleF)Bounds;
-                rect.Position = (Vector2)point;
-                Bounds = rect;
-            }
+            base.Draw(spriteBatch);
             spriteBatch.Draw(texture, (Rectangle)(RectangleF)Bounds, Color.White);
             //spriteBatch.DrawRectangle((RectangleF)Bounds, color);
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
+            
+            direction.Y = 0;
             if(motions[0]) 
             {
-                if(Bounds.Position.Y <= 0) Velocity = 0;
-                else Velocity = 1;
-                Direction.Y = -1;
+                if(Bounds.Position.Y <= 0) direction.Y = 0;
+                else direction.Y = -1;
             }
             else if(motions[1]) 
             {
-                if(Bounds.Position.Y + 120 >= Utilities.ScreenBounds[1]) Velocity=0;
-                else Velocity = 1;
-                Direction.Y = 1;
+                if(Bounds.Position.Y + 120 >= Utilities.screenBounds[1]) direction.Y = 0;
+                else direction.Y = 1;
             }
-            else 
-            {
-                Direction.Y = 0;
-                Velocity = 0;
-            }
-            
-            Bounds.Position += Direction * Velocity * gameTime.GetElapsedSeconds() * Utilities.BaseVelocity;
+            base.Update(gameTime);
         }
 
-        public void OnCollision(CollisionEventArgs collisionInfo)
+        public override void OnCollision(CollisionEventArgs collisionInfo)
         {
-            Velocity += 0.1f;
+            base.OnCollision(collisionInfo);
         }
     }
 
-    public class BallEntity : IEntity
+    public class BallEntity : GenericEntity
     {
-        public int Win = 0;
-        public Vector2? point = null;
-        public Texture2D texture;
-        public Color color;
-        public Vector2 Direction;
-        public float Velocity = 1;
-        public IShapeF Bounds { get; set; }
-        public BallEntity(CircleF rectangle, Color color, bool wait = true)
+        public int markPoint = 0;
+        private bool _waitInit = false;
+        private int _initTime = 0;
+
+
+        public BallEntity(CircleF rectangle, Color color, bool _waitInit = true)
         {
             Bounds = rectangle;
             this.color = color;
-            Direction = new Vector2(Utilities.Random.Next(0, 2) == 0 ? 1 : -1, Utilities.Random.Next(-1, 2));
-            this.wait = wait;
+            
+            direction = new Vector2(Utilities.random.Next(0, 2) == 0 ? 1 : -1, Utilities.random.Next(-1, 2));
+
+            this._waitInit = _waitInit;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
-            if(point != null)
-            {
-                CircleF circle = (CircleF)Bounds;
-                circle.Position = (Vector2) point;
-                Bounds = circle;
-            }
+            base.Draw(spriteBatch);
             spriteBatch.Draw(texture, (CircleF)Bounds, Color.White);
             //spriteBatch.DrawCircle((CircleF)Bounds, 8, color);
         }
 
-        bool wait = false;
-        int initTime = 0;
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            if(initTime == 0 && wait) initTime = gameTime.TotalGameTime.Seconds;
-            if(gameTime.TotalGameTime.Seconds - initTime <= 3 && wait) return;
-            Bounds.Position += Direction * Velocity * gameTime.GetElapsedSeconds() * Utilities.BaseVelocity;
-            if(Bounds.Position.Y <= 0 || Bounds.Position.Y >= Utilities.ScreenBounds[1]) 
-            {
-                Direction.Y *= -1;
-            }
-            if(Bounds.Position.X <= 0)
-            {
-                Win = 1;
-            }
-            else if (Bounds.Position.X >= Utilities.ScreenBounds[0])
-            {
-                Win = 2;
-            }
+            if(_initTime == 0 && _waitInit) _initTime = gameTime.TotalGameTime.Seconds;
+            if(gameTime.TotalGameTime.Seconds - _initTime <= 3 && _waitInit) return;
+
+            base.Update(gameTime);
+            
+            if(Bounds.Position.Y <= 0 || 
+                Bounds.Position.Y >= Utilities.screenBounds[1]) direction.Y *= -1;
+            if(Bounds.Position.X <= 0) markPoint = 1;
+            else if (Bounds.Position.X >= Utilities.screenBounds[0]) markPoint = 2;
         }
 
-        public void OnCollision(CollisionEventArgs collisionInfo)
+        public override void OnCollision(CollisionEventArgs collisionInfo)
         {
-            PaddleEntity p = (PaddleEntity) collisionInfo.Other;
-            Direction.X *= -1;
-            Direction.Y = ((float)(Bounds.Position.Y - p.Bounds.Position.Y) / 120f) * 2f - 1f;
-            Velocity += 0.1f;
+            velocity += 0.1f;
+            direction.X *= -1;
+            direction.Y = ((float)(Bounds.Position.Y - ((PadleEntity)collisionInfo.Other).Bounds.Position.Y) / 120f) * 2f - 1f;
             Bounds.Position -= collisionInfo.PenetrationVector;
         }
     }
