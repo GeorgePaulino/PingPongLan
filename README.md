@@ -5,8 +5,8 @@ A Ping Pong game made with Monogame Framework with LAN support.
     <img src="Images/Icon.png" alt="Ping Pong" width="300" display="block"/>
 </p>
 <p align="center">
-    <img src="Images/Title.png" alt="Ping Pong" width="300" display="block"/>
+    <img src="Images/Title.png" alt="Ping Pong" display="block"/>
 </p>
 <p align="center">
-    <img src="Images/Game.png" alt="Ping Pong" width="300" display="block"/>
+    <img src="Images/Game.png" alt="Ping Pong" display="block"/>
 </p>
