@@ -32,14 +32,14 @@ namespace PingPong
 
 		private void BuildUI()
 		{
-			byte[] ttfData = File.ReadAllBytes("./Data/fonts/buttons.ttf");
+			byte[] ttfData = File.ReadAllBytes("./Data/fonts/buttons.otf");
             FontSystemSettings fontSet = new FontSystemSettings{Effect = FontSystemEffect.Stroked, EffectAmount = 2};
             FontSystem font = new FontSystem(fontSet);
 			font.CharacterSpacing = 5;
             font.AddFont(ttfData);
 			
 			IpText = new TextBox();
-			IpText.HintText = "Lan IP - If empty it will be set to server";
+			IpText.HintText = "Lan IP - If empty set server";
 			IpText.Height = 40;
             IpText.Width = 500;
 			IpText.TextVerticalAlignment = VerticalAlignment.Center;
@@ -49,7 +49,7 @@ namespace PingPong
 			IpText.Id = "LanText";
 			IpText.Font = font.GetFont(30);
 
-			ttfData = File.ReadAllBytes("./Data/fonts/buttons.ttf");
+			ttfData = File.ReadAllBytes("./Data/fonts/buttons.otf");
             fontSet = new FontSystemSettings{Effect = FontSystemEffect.Stroked, EffectAmount = 2};
             font = new FontSystem(fontSet);
             font.AddFont(ttfData);

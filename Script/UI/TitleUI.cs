@@ -45,7 +45,7 @@ namespace PingPong
 			title.Id = "title";
 			title.Font = font.GetFont(128);
 
-			ttfData = File.ReadAllBytes("./Data/fonts/buttons.ttf");
+			ttfData = File.ReadAllBytes("./Data/fonts/buttons.otf");
             fontSet = new FontSystemSettings{Effect = FontSystemEffect.Stroked, EffectAmount = 2};
             font = new FontSystem(fontSet);
             font.AddFont(ttfData);
