@@ -13,6 +13,43 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin songs/titleBG.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:songs/titleBG.mp3;songs/titleBG.mp3
+
+#begin songs/gameBG.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:songs/gameBG.mp3;songs/gameBG.mp3
+
+#begin sounds/button.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/button.mp3;sounds/button.mp3
+
+#begin sounds/impact.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/impact.mp3;sounds/impact.mp3
+
+#begin sounds/point.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sounds/point.mp3;sounds/point.mp3
+
+#begin fonts/Hint.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/Hint.spritefont;Hint.spritefont
+
 #begin fonts/Score.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -20,14 +57,7 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/Score.spritefont;Score.spritefont
 
-#begin fonts/Score.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:fonts/Hint.spritefont;Hint.spritefont
-
-#begin UI/NormalGameBtn/Normal.png
+#begin sprites/ball.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -37,9 +67,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:UI/button/Normal.png;UI/button/Normal.png
+/build:sprites/ball.png
 
-#begin UI/NormalGameBtn/Overed.png
+#begin sprites/field.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -49,9 +79,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:UI/button/Overed.png;UI/button/Overed.png
+/build:sprites/field.png
 
-#begin UI/NormalGameBtn/Pressed.png
+#begin sprites/paddle1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -61,9 +91,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:UI/button/Pressed.png;UI/button/Pressed.png
+/build:sprites/paddle1.png
 
-#begin UI/NormalGameBtn/Normal.png
+#begin sprites/paddle2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -73,9 +103,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/ball.png;sprites/ball.png
+/build:sprites/paddle2.png
 
-#begin UI/NormalGameBtn/Normal.png
+#begin UI/button/Normal.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -85,9 +115,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/paddle1.png;sprites/paddle1.png
+/build:UI/button/Normal.png
 
-#begin UI/NormalGameBtn/Normal.png
+#begin UI/button/Overed.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -97,9 +127,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/paddle2.png;sprites/paddle2.png
+/build:UI/button/Overed.png
 
-#begin UI/NormalGameBtn/Normal.png
+#begin UI/button/Pressed.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -109,4 +139,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:sprites/field.png;sprites/field.png
+/build:UI/button/Pressed.png
+

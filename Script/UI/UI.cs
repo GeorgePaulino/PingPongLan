@@ -1,6 +1,8 @@
 using FontStashSharp;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using Myra;
 using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
@@ -29,6 +31,10 @@ public static class UI
         DefaultTextButton.Height = 60;
         DefaultTextButton.HorizontalAlignment = Myra.Graphics2D.UI.HorizontalAlignment.Center;
         DefaultTextButton.VerticalAlignment = Myra.Graphics2D.UI.VerticalAlignment.Center;
+
+        DefaultTextButton.Click += delegate{
+            MyraEnvironment.Game.Content.Load<SoundEffect>("sounds/button").Play(0.3f, 0, 0);
+        };
         return DefaultTextButton;
     }
 }

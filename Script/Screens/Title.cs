@@ -1,13 +1,7 @@
-using System.Collections.Generic;
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using MonoGame.Extended;
-using MonoGame.Extended.Collisions;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended.Screens;
-using Myra;
-using Myra.Graphics2D.TextureAtlases;
 using Myra.Graphics2D.UI;
 
 namespace PingPong
@@ -18,6 +12,8 @@ namespace PingPong
 
         private TitleUI titleGrid;
         private LanUI lanUIGrid;
+
+        private Song backgroundSong;
         
         private new MainGame Game => (MainGame)base.Game;
         public TitleScreen(MainGame game) : base(game) { }
@@ -42,7 +38,12 @@ namespace PingPong
                 else ScreenController.LoadClientScreen(lanUIGrid.IpInput.Text);
             };
             lanUIGrid.backButton.Click += delegate { _desktop.Root = titleGrid; };
-            _desktop.Root = titleGrid;        
+            _desktop.Root = titleGrid;
+            
+            backgroundSong = Content.Load<Song>("songs/titleBG");
+            MediaPlayer.Play(backgroundSong);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.3f;
         }
 
         public override void Update(GameTime gameTime) { }

@@ -1,13 +1,10 @@
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Principal;
-using System.Runtime.InteropServices.ComTypes;
-using System.Data;
 using System.Collections.Generic;
-using System;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended;
 using MonoGame.Extended.Screens;
 using MonoGame.Extended.Collisions;
@@ -22,20 +19,24 @@ namespace PingPong
         private int[] _scores = new int[2];
         public void AddScore(int index) => _scores[index] += 1;
 
-        private CollisionComponent _collisionComponent;
-        private List<IEntity> _entities = new List<IEntity>();
-        private ParticleController _particleController = new ParticleController();
-
-        private SpriteFont _scoreFont;
-        private SpriteFont _hintFont;
-
-        
         // 0 - Normal | 1 - Server | 2 - Client
         private int _gameMode;
         private NetPeer _conn;
 
+        private CollisionComponent _collisionComponent;
+        private List<IEntity> _entities = new List<IEntity>();
+        private ParticleController _particleController = new ParticleController();
+
         private Texture2D _ballTex;
         private Texture2D _fieldTex;
+        
+        private SpriteFont _scoreFont;
+        private SpriteFont _hintFont;
+
+        private Song backgroundSong;
+
+        private SoundEffect _ballImpact;
+        private SoundEffect _pointMarked;
 
         private new MainGame Game => (MainGame)base.Game;
         public PingPongScreen(MainGame game, int gameMode, string ip = null) : base(game) 
@@ -78,13 +79,26 @@ namespace PingPong
         public override void LoadContent() 
         {
             _particleController.LoadContent(Game.GraphicsDevice);
-            _scoreFont = Content.Load<SpriteFont>("Score");
-            _hintFont = Content.Load<SpriteFont>("Hint");
+            
             _padles[0].texture = Content.Load<Texture2D>("sprites/paddle1");
             _padles[1].texture = Content.Load<Texture2D>("sprites/paddle2");
+            
             _ballTex = Content.Load<Texture2D>("sprites/ball");
+            _ballImpact = Content.Load<SoundEffect>("sounds/impact");
             _ball.texture = _ballTex;
+            _ball.impactSoundEffect = _ballImpact;
+
             _fieldTex = Content.Load<Texture2D>("sprites/field");
+
+            _scoreFont = Content.Load<SpriteFont>("Score");
+            _hintFont = Content.Load<SpriteFont>("Hint");
+
+            _pointMarked = Content.Load<SoundEffect>("sounds/point");
+
+            backgroundSong = Content.Load<Song>("songs/gameBG");
+            MediaPlayer.Play(backgroundSong);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Volume = 0.3f;
         }
 
         public override void Update(GameTime gameTime) 
@@ -108,12 +122,14 @@ namespace PingPong
             _collisionComponent.Update(gameTime);
             if(_ball.markPoint != 0)
             {
+                _pointMarked.Play(0.2f, 1, 1);
                 AddScore(_ball.markPoint - 1);
                 _particleController.AddParticle(_ball.markPoint == 1, _ball.Bounds.Position);
                 _entities.Remove(_ball);
                 _collisionComponent.Remove(_ball);
                 _ball = new BallEntity(new CircleF(new Point2(395, 245), 10), Color.Green, false);
                 _ball.texture = _ballTex;
+                _ball.impactSoundEffect = _ballImpact;
                 _entities.Add(_ball);
                 _collisionComponent.Insert(_ball);
             }

@@ -1,7 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Collisions;
 
@@ -90,6 +89,7 @@ namespace PingPong
 
     public class BallEntity : GenericEntity
     {
+        public SoundEffect impactSoundEffect;
         public int markPoint = 0;
         private bool _waitInit = false;
         private int _initTime = 0;
@@ -120,13 +120,18 @@ namespace PingPong
             base.Update(gameTime);
             
             if(Bounds.Position.Y <= 0 || 
-                Bounds.Position.Y >= Utilities.screenBounds[1]) direction.Y *= -1;
+                Bounds.Position.Y >= Utilities.screenBounds[1]) 
+            {
+                direction.Y *= -1;
+                impactSoundEffect.Play();
+            }
             if(Bounds.Position.X <= 0) markPoint = 1;
             else if (Bounds.Position.X >= Utilities.screenBounds[0]) markPoint = 2;
         }
 
         public override void OnCollision(CollisionEventArgs collisionInfo)
         {
+            impactSoundEffect.Play(0.2f, 0, 0);
             velocity += 0.1f;
             direction.X *= -1;
             direction.Y = ((float)(Bounds.Position.Y - ((PadleEntity)collisionInfo.Other).Bounds.Position.Y) / 120f) * 2f - 1f;
